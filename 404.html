@@ -5,12 +5,25 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
 <title>Oneward — The AI-native HRIS</title>
-<meta name="description" content="The AI-readiness layer for Workday, SuccessFactors, and Oracle HCM tenants. We audit your tenant and ship the operating layer that makes agents safe to deploy on the systems you already run." />
+<meta name="description" content="The AI-readiness layer for Workday, SuccessFactors, and Oracle HCM tenants. Agents across the whole employee lifecycle, tailored to your company, on the model you approve." />
+
+<link rel="icon" type="image/png" sizes="32x32" href="/assets/oneward-mark-32.png" />
+<link rel="icon" type="image/png" sizes="128x128" href="/assets/oneward-mark-128.png" />
+<link rel="apple-touch-icon" href="/assets/oneward-mark-256.png" />
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="Oneward" />
+<meta property="og:title" content="Oneward — The AI-native HRIS" />
+<meta property="og:description" content="The AI-readiness layer for Workday, SuccessFactors, and Oracle HCM tenants. Agents across the whole employee lifecycle, tailored to your company, on the model you approve." />
+<meta property="og:url" content="https://getoneward.com/" />
+<meta property="og:image" content="https://getoneward.com/assets/oneward-mark-256.png" />
+<meta name="twitter:card" content="summary" />
 
 <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/geist-400.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/geist-500.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/geist-600.woff2" />
 <link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/jetbrains-mono-800.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="/fonts/geist-700.woff2" />
 
 <style>
   /* ── Self-hosted fonts (Latin subset, font-display: swap) ── */
@@ -34,6 +47,13 @@
     unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
   @font-face { font-family:"Instrument Serif"; font-style:italic; font-weight:400; font-display:swap;
     src:url('/fonts/instrument-serif-400-italic.woff2') format('woff2');
+    unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+
+  @font-face { font-family:"Geist"; font-style:normal; font-weight:700; font-display:swap;
+    src:url('/fonts/geist-700.woff2') format('woff2');
+    unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+  @font-face { font-family:"JetBrains Mono"; font-style:normal; font-weight:400; font-display:swap;
+    src:url('/fonts/jetbrains-mono-400.woff2') format('woff2');
     unicode-range:U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
 
   /* ── Tokens ── */
@@ -116,13 +136,48 @@
   }
   .header-back:hover { color: var(--text-1); }
 
+  .brand { display: inline-flex; align-items: center; gap: 12px; }
+  .brand img { width: 28px; height: 28px; border-radius: 7px; }
+  .brand .wm {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-weight: 800;
+    font-size: 14px;
+    letter-spacing: 0.22em;
+    color: var(--text-1);
+  }
+  .header-cta {
+    display: inline-flex;
+    align-items: center;
+    height: 38px;
+    padding: 0 16px;
+    border-radius: 6px;
+    border: 1px solid #081425;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: #081425;
+    transition: background .15s ease, color .15s ease;
+    white-space: nowrap;
+  }
+  .header-cta:hover { background: #081425; color: #fff; }
+  @media (max-width: 720px) {
+    .header-cta { height: 44px; } /* comfortable tap target on touch */
+  }
+
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .btn { transition: none; }
+    .btn:hover:not(:disabled) { transform: none; }
+    .header-cta { transition: none; }
+  }
+
   .site-footer {
     border-top: 1px solid var(--border);
     background: var(--bg);
   }
   .site-footer .row {
     min-height: 64px;
-    padding: 18px 0;
+    padding-block: 18px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -206,370 +261,380 @@
 
   /* ───────────────────────────────────────────────
      PARTNER VIEW — getoneward.com/
+     New landing: navy / cream / cyan, lifecycle-centric.
+     All tokens + rules scoped under .v-partner so the
+     seed views keep their cool palette untouched.
      ─────────────────────────────────────────────── */
-  .v-partner h1 {
-    font-size: clamp(40px, 7.2vw, 84px);
-    font-weight: 600;
-    line-height: 1.05;
-    letter-spacing: -0.022em;
-  }
-  .v-partner h2 {
-    font-size: clamp(28px, 4vw, 44px);
-    font-weight: 600;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    max-width: 22ch;
-  }
-  .v-partner h3 {
-    font-size: 17px;
-    font-weight: 600;
-    line-height: 1.35;
-    letter-spacing: -0.005em;
+  .v-partner {
+    --navy:      #081425;
+    --navy-2:    #0E1E36;
+    --cream:     #F5F1EA;
+    --cream-2:   #EFEAE0;
+    --on-navy:   #F5F1EA;
+    --on-navy-2: #A9B4C9;
+    --border:    #E5E1D8;
+    --border-cool: #E3E7EE;
+    --text-2:    #43506A;
+    --text-3:    #7C87A0;
+    --radius:    6px;
+    --section-y: clamp(80px, 10vw, 128px);
   }
 
+  .v-partner h1 {
+    font-size: clamp(42px, 6.6vw, 76px);
+    font-weight: 700;
+    line-height: 1.03;
+    letter-spacing: -0.025em;
+  }
+  .v-partner h2 {
+    font-size: clamp(28px, 3.6vw, 42px);
+    font-weight: 700;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+  }
+  .v-partner h3 { font-size: 17px; font-weight: 600; line-height: 1.35; letter-spacing: -0.005em; }
+
+  .v-partner .eyebrow { letter-spacing: 0.18em; display: block; }
+
+  /* Header: sticky on the landing only */
+  .v-partner .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    border-bottom: 1px solid var(--border-cool);
+  }
+
+  /* Landing button proportions (seed keeps the shared 48px/5px) */
+  .v-partner .btn {
+    height: 50px;
+    padding: 0 24px;
+    border-radius: var(--radius);
+    background: var(--navy);
+    border-color: var(--navy);
+    box-shadow: 0 1px 2px rgba(8,20,37,.12), 0 8px 24px -10px rgba(8,20,37,.18);
+  }
+  .v-partner .btn:hover:not(:disabled) {
+    background: #13233c;
+    box-shadow: 0 2px 4px rgba(8,20,37,.14), 0 14px 32px -12px rgba(8,20,37,.24);
+  }
+
+  /* ── Hero ── */
   .v-partner .hero {
     position: relative;
     isolation: isolate;
-    background: #fff;
     overflow: hidden;
-    padding: clamp(72px, 10vw, 128px) 0 clamp(96px, 12vw, 152px);
+    padding: clamp(72px, 9vw, 120px) 0 clamp(80px, 10vw, 132px);
+    background: #fff;
   }
   .v-partner .hero::before {
     content: "";
     position: absolute;
     inset: 0;
     background-image:
-      linear-gradient(to right,  rgba(226, 230, 238, 0.45) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(226, 230, 238, 0.45) 1px, transparent 1px);
-    background-size: 48px 48px;
-    background-position: -1px -1px;
-    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.18) 60%, transparent 95%);
-            mask-image: linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.18) 60%, transparent 95%);
-    pointer-events: none;
-    z-index: -2;
-  }
-  .v-partner .hero::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(
-      62% 56% at 72% 42%,
-      rgba(244, 246, 250, 0.85) 0%,
-      rgba(244, 246, 250, 0.35) 35%,
-      rgba(244, 246, 250, 0)    72%
-    );
+      linear-gradient(to right,  rgba(8,20,37,0.045) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(8,20,37,0.045) 1px, transparent 1px);
+    background-size: 52px 52px;
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,.5), rgba(0,0,0,.12) 55%, transparent 92%);
+            mask-image: linear-gradient(to bottom, rgba(0,0,0,.5), rgba(0,0,0,.12) 55%, transparent 92%);
     pointer-events: none;
     z-index: -1;
   }
-  .v-partner .hero .container { position: relative; z-index: 1; }
   .v-partner .hero-grid {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
-    gap: clamp(40px, 6vw, 72px);
-    align-items: start;
+    gap: clamp(48px, 6vw, 80px);
+    align-items: center;
   }
   @media (min-width: 1024px) {
-    .v-partner .hero-grid {
-      grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
-      gap: 80px;
-    }
+    .v-partner .hero-grid { grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr); }
   }
-  .v-partner .hero h1 { margin-top: 22px; max-width: 14ch; }
+  .v-partner .hero h1 { margin-top: 20px; }
   .v-partner .hero .sub {
-    margin-top: 28px;
-    font-size: clamp(18px, 1.6vw, 22px);
-    line-height: 1.4;
+    margin-top: 24px;
+    font-size: clamp(18px, 1.7vw, 21px);
+    line-height: 1.45;
     color: var(--text-1);
-    font-weight: 400;
-    max-width: 32ch;
+    font-weight: 500;
+    max-width: 34ch;
     letter-spacing: -0.005em;
   }
-  .v-partner .hero .body {
-    margin-top: 22px;
+  .v-partner .hero .support {
+    margin-top: 16px;
     font-size: 16px;
-    line-height: 1.62;
-    color: var(--text-2);
-    max-width: 56ch;
+    line-height: 1.6;
+    max-width: 52ch;
   }
-  .v-partner .hero .cta-row {
-    margin-top: 36px;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 28px;
-  }
+  .v-partner .hero .cta-row { margin-top: 36px; display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
 
-  /* ── Partner org panel ── */
-  .v-partner .org-panel {
+  /* Hero lifecycle visual */
+  .v-partner .hero-visual {
     border: 1px solid var(--border);
-    border-radius: 6px;
-    background: #fff;
-    overflow: hidden;
-    box-shadow:
-      0 1px 2px rgba(8, 20, 37, 0.04),
-      0 16px 48px -12px rgba(8, 20, 37, 0.08);
+    border-radius: 10px;
+    background: var(--cream);
+    padding: clamp(24px, 3vw, 36px);
+    box-shadow: 0 1px 2px rgba(8,20,37,.04), 0 20px 48px -20px rgba(8,20,37,.10);
   }
-  .v-partner .org-canvas {
-    padding: clamp(28px, 4vw, 48px);
-    background: radial-gradient(70% 65% at 50% 50%, #FAFBFD 0%, #ffffff 75%);
-  }
-  .v-partner .org-canvas svg {
-    display: block;
-    width: 100%;
-    height: auto;
-    overflow: visible;
-  }
-  .v-partner .org-canvas text.node-label {
-    font-family: "Geist", ui-sans-serif, system-ui, sans-serif;
-    font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    paint-order: stroke fill;
-    stroke: #fff;
-    stroke-width: 4px;
-    stroke-linejoin: round;
-  }
-  .v-partner .org-canvas text.lbl-human { fill: var(--text-1); }
-  .v-partner .org-canvas text.lbl-agent { fill: var(--cyan); }
-  .v-partner .org-foot {
+  .v-partner .hero-visual svg { width: 100%; height: auto; overflow: visible; }
+  .v-partner .hero-visual .cap {
+    margin-top: 18px;
     display: flex;
-    align-items: center;
-    gap: 24px;
-    padding: 14px clamp(28px, 4vw, 48px);
-    border-top: 1px solid var(--border);
+    justify-content: space-between;
+    gap: 16px;
     font-family: "JetBrains Mono", monospace;
-    font-size: 11px;
+    font-size: 10.5px;
     letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--text-3);
   }
-  .v-partner .org-foot .item { display: inline-flex; align-items: center; gap: 9px; }
-  .v-partner .org-foot .dot {
-    width: 9px; height: 9px; border-radius: 50%;
-    background: var(--text-1); display: inline-block;
-  }
-  .v-partner .org-foot .dia {
-    width: 9px; height: 9px;
-    border: 1px solid var(--cyan);
-    transform: rotate(45deg);
-    display: inline-block;
-  }
 
-  /* ── Section band ── */
-  .v-partner .band {
-    padding: var(--section-y) 0;
-  }
-  .v-partner .band.surface {
-    background: var(--surface);
-  }
-  .v-partner .band.surface[aria-labelledby="problem-h"] {
-    background:
-      radial-gradient(120% 60% at 50% 0%, rgba(232, 236, 244, 0.9) 0%, rgba(244, 246, 250, 0) 60%),
-      var(--surface);
-  }
-  .v-partner .band.surface[aria-labelledby="cohort-h"] {
-    background:
-      radial-gradient(70% 80% at 18% 100%, rgba(232, 236, 244, 0.95) 0%, rgba(244, 246, 250, 0) 65%),
-      var(--surface);
-  }
-  .v-partner .band-head { margin-bottom: clamp(40px, 5vw, 64px); max-width: 38ch; }
-  .v-partner .band-head .eyebrow { margin-bottom: 18px; display: block; }
+  /* ── Section scaffolding ── */
+  .v-partner .band { padding: var(--section-y) 0; }
+  .v-partner .band.cream { background: var(--cream); }
+  .v-partner .band-head { max-width: 44ch; margin-bottom: clamp(44px, 5vw, 64px); }
+  .v-partner .band-head .eyebrow { margin-bottom: 16px; }
+  .v-partner .band-head .lede { margin-top: 16px; font-size: 16px; max-width: 56ch; }
 
-  /* ── 3-up grid ── */
-  .v-partner .three-up {
+  /* ── Pillars ── */
+  .v-partner .pillars {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+  @media (min-width: 820px) { .v-partner .pillars { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .v-partner .pillar {
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: #fff;
+    padding: 28px 26px 30px;
+  }
+  .v-partner .pillar .glyph {
+    width: 40px; height: 40px;
+    border-radius: 9px;
+    background: var(--navy);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 20px;
+  }
+  .v-partner .pillar .glyph svg { width: 20px; height: 20px; }
+  .v-partner .pillar h3 { margin-bottom: 10px; font-size: 18px; }
+  .v-partner .pillar p { font-size: 14.5px; line-height: 1.6; }
+
+  /* ── Lifecycle ── */
+  .v-partner .rail {
+    display: none;
+    align-items: center;
+    margin-bottom: 28px;
+  }
+  @media (min-width: 980px) { .v-partner .rail { display: flex; } }
+  .v-partner .rail .stop { display: flex; align-items: center; gap: 10px; }
+  .v-partner .rail .stop .pt {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--cyan);
+    box-shadow: 0 0 0 3px rgba(0,194,255,.15);
+    flex-shrink: 0;
+  }
+  .v-partner .rail .stop .nm {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-1);
+    white-space: nowrap;
+  }
+  .v-partner .rail .ln { flex: 1; height: 1px; background: var(--border); margin: 0 14px; min-width: 20px; }
+
+  .v-partner .stages {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 20px;
+  }
+  @media (min-width: 640px)  { .v-partner .stages { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 980px)  { .v-partner .stages { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; } }
+  .v-partner .stage h4 {
+    margin: 0 0 14px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: -0.005em;
+    color: var(--text-1);
+  }
+  .v-partner .stage h4 .idx {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    color: var(--text-3);
+    display: block;
+    margin-bottom: 6px;
+  }
+  .v-partner .uc {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: #fff;
+    padding: 14px 15px 15px;
+    margin-bottom: 12px;
+  }
+  .v-partner .uc:last-child { margin-bottom: 0; }
+  .v-partner .uc .t { font-size: 13.5px; font-weight: 600; color: var(--text-1); line-height: 1.3; }
+  .v-partner .uc .d { font-size: 12.5px; color: var(--text-2); margin-top: 6px; line-height: 1.5; }
+
+  /* Foundation band under the lifecycle */
+  .v-partner .found {
+    margin-top: 22px;
+    background: var(--navy);
+    border-radius: 12px;
+    padding: clamp(28px, 4vw, 40px) clamp(24px, 4vw, 40px) clamp(30px, 4vw, 42px);
+    position: relative;
+  }
+  .v-partner .found .fk {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    display: block;
+    margin-bottom: 12px;
+  }
+  .v-partner .found h3 { color: var(--on-navy); font-size: 21px; }
+  .v-partner .found .fsub {
+    color: var(--on-navy-2);
+    font-size: 14px;
+    margin-top: 10px;
+    max-width: 72ch;
+    line-height: 1.6;
+  }
+  .v-partner .fgrid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+    margin-top: 26px;
+  }
+  @media (min-width: 640px) { .v-partner .fgrid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 980px) { .v-partner .fgrid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  .v-partner .fc {
+    background: rgba(245,241,234,.05);
+    border: 1px solid rgba(245,241,234,.12);
+    border-radius: 8px;
+    padding: 16px 16px 17px;
+  }
+  .v-partner .fc .t { font-size: 13.5px; font-weight: 600; color: var(--on-navy); line-height: 1.3; }
+  .v-partner .fc .d { font-size: 12.5px; color: var(--on-navy-2); margin-top: 6px; line-height: 1.5; }
+
+  /* ── Why now ── */
+  .v-partner .why-grid {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     gap: 36px 40px;
   }
-  @media (min-width: 768px) {
-    .v-partner .three-up { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; }
+  @media (min-width: 820px) { .v-partner .why-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .v-partner .why {
+    border-top: 1px solid var(--border);
+    padding-top: 24px;
   }
-  .v-partner .col h3 { margin-bottom: 12px; }
-  .v-partner .col .num {
+  .v-partner .why .num {
     font-family: "JetBrains Mono", monospace;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 500;
-    letter-spacing: 0.08em;
-    color: var(--text-3);
-    margin-bottom: 18px;
+    letter-spacing: 0.16em;
+    color: var(--cyan);
     display: block;
+    margin-bottom: 14px;
   }
-  .v-partner .col p { font-size: 15px; line-height: 1.6; }
+  .v-partner .why h3 { margin-bottom: 10px; font-size: 17px; }
+  .v-partner .why p { font-size: 14.5px; line-height: 1.6; }
 
-  /* ── Wedge split layout ── */
-  .v-partner .split {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: clamp(40px, 5vw, 72px);
-    align-items: start;
-  }
-  @media (min-width: 1024px) {
-    .v-partner .split { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 72px; }
-  }
-  .v-partner .split-text p { max-width: 50ch; }
-  .v-partner .split-text .dims {
-    list-style: none;
-    margin: 26px 0 0;
-    padding: 0;
-    display: grid;
-    gap: 16px;
-    font-size: 15px;
-  }
-  .v-partner .split-text .dims li { color: var(--text-2); line-height: 1.55; }
-  .v-partner .split-text .dims li strong {
-    color: var(--text-1);
-    font-weight: 600;
-    letter-spacing: -0.01em;
-  }
-
-  /* ── Console mockup ── */
-  .v-partner .console {
-    background: var(--text-1);
-    border-radius: 8px;
-    border: 1px solid #11203a;
-    overflow: hidden;
-    width: 100%;
-    min-width: 0;
+  /* ── Closing / CTA ── */
+  .v-partner .close-band {
+    background: var(--navy);
+    color: var(--on-navy);
+    padding: clamp(72px, 9vw, 112px) 0;
     position: relative;
-    box-shadow:
-      0 24px 60px -32px rgba(8, 20, 37, 0.45),
-      0 24px 64px -16px rgba(8, 20, 37, 0.12),
-      48px 24px 96px -28px rgba(0, 194, 255, 0.12);
+    isolation: isolate;
+    overflow: hidden;
+    scroll-margin-top: 64px;
   }
-  .v-partner .console-bar {
+  .v-partner .close-band::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(to right,  rgba(245,241,234,0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(245,241,234,0.05) 1px, transparent 1px);
+    background-size: 52px 52px;
+    -webkit-mask-image: radial-gradient(80% 90% at 70% 20%, black, transparent 75%);
+            mask-image: radial-gradient(80% 90% at 70% 20%, black, transparent 75%);
+    pointer-events: none;
+    z-index: -1;
+  }
+  .v-partner .close-band h2 { color: var(--on-navy); max-width: 20ch; }
+  .v-partner .close-band .eyebrow { color: var(--cyan); margin-bottom: 16px; }
+  .v-partner .close-band .body {
+    color: var(--on-navy-2);
+    margin-top: 18px;
+    max-width: 62ch;
+    font-size: 16px;
+    line-height: 1.65;
+  }
+  .v-partner .close-band .tags {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 26px;
+  }
+  .v-partner .close-band .tag {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--cyan);
+    border: 1px solid rgba(0,194,255,.35);
+    border-radius: 5px;
+    padding: 6px 12px;
+  }
+  .v-partner .close-band .cta-row { margin-top: 36px; }
+  .v-partner .close-band .btn {
+    background: var(--cyan);
+    border-color: var(--cyan);
+    color: var(--navy);
+    font-weight: 600;
+    box-shadow: 0 1px 2px rgba(0,0,0,.2), 0 12px 32px -12px rgba(0,194,255,.45);
+  }
+  .v-partner .close-band .btn:hover:not(:disabled) {
+    background: #33CFFF;
+    border-color: #33CFFF;
+    color: var(--navy);
+  }
+
+  /* ── Footer (navy on the landing) ── */
+  .v-partner .site-footer {
+    background: var(--navy);
+    border-top: 1px solid rgba(245,241,234,.10);
+  }
+  .v-partner .site-footer .row {
+    min-height: 68px;
+    padding-block: 20px;
+  }
+  .v-partner .site-footer .brand .wm { color: var(--on-navy); }
+  .v-partner .site-footer .right {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 12px 16px;
-    border-bottom: 1px solid #11203a;
-    background: #0a1828;
-  }
-  .v-partner .console-bar .lights { display: flex; gap: 6px; }
-  .v-partner .console-bar .lights span {
-    width: 10px; height: 10px; border-radius: 50%;
-    background: #1d2c44;
-  }
-  .v-partner .console-bar .title {
+    gap: 18px;
     font-family: "JetBrains Mono", monospace;
     font-size: 11px;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: #5a72a0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    min-width: 0;
+    color: var(--on-navy-2);
   }
-  .v-partner .console-bar .title .short { display: none; }
+  .v-partner .site-footer .right a { color: var(--on-navy-2); }
+  .v-partner .site-footer .right a:hover { color: var(--on-navy); }
+  .v-partner .site-footer .right .mail { color: var(--cyan); text-transform: none; letter-spacing: 0.04em; font-size: 13px; }
+  .v-partner .site-footer .right .mail:hover { color: #33CFFF; }
+  .v-partner .site-footer .divider { width: 1px; height: 14px; background: rgba(245,241,234,.18); }
   @media (max-width: 640px) {
-    .v-partner .console-bar .title .full  { display: none; }
-    .v-partner .console-bar .title .short { display: inline; }
-  }
-  .v-partner .console-body {
-    padding: 24px;
-    font-family: "JetBrains Mono", ui-monospace, monospace;
-    font-size: 14px;
-    line-height: 1.6;
-    color: #B8C6DE;
-    overflow: hidden;
-  }
-  @media (max-width: 1024px) { .v-partner .console-body { font-size: 13px; } }
-  @media (max-width: 640px)  { .v-partner .console-body { font-size: 12px; padding: 16px; } }
-  @media (max-width: 360px)  { .v-partner .console-body { font-size: 11px; padding: 14px; } }
-  .v-partner .console-body .line {
-    display: block;
-    padding-left: 16px;
-    text-indent: -16px;
-    word-break: break-word;
-    overflow-wrap: anywhere;
-  }
-  @media (max-width: 360px) { .v-partner .console-body .line { padding-left: 12px; text-indent: -12px; } }
-  .v-partner .console-body .prompt { color: #4d6790; user-select: none; }
-  .v-partner .console-body .key    { color: #5e7aab; }
-  .v-partner .console-body .val    { color: #B8C6DE; }
-  .v-partner .console-body .num    { color: var(--cyan); font-weight: 500; }
-  .v-partner .console-body .ok     { color: var(--green); }
-  .v-partner .console-body .gap    { color: var(--red); }
-  .v-partner .console-body .accent { color: var(--violet); }
-  .v-partner .console-body .score  {
-    color: var(--cyan);
-    font-weight: 700;
-    font-size: 15px;
-    letter-spacing: 0.02em;
-  }
-  .v-partner .console-body .pending {
-    color: #5a72a0;
-    font-style: italic;
-  }
-  .v-partner .cursor {
-    display: inline-block;
-    width: 8px;
-    height: 14px;
-    margin-left: 2px;
-    background: var(--cyan);
-    vertical-align: -2px;
-    animation: blink 1.05s steps(2, end) infinite;
-  }
-  @keyframes blink { 50% { background: transparent; } }
-  @media (prefers-reduced-motion: reduce) {
-    .v-partner .cursor { animation: none; }
-  }
-
-  /* ── Criteria grid (Who it's for) ── */
-  .v-partner .criteria { display: grid; gap: 36px 40px; grid-template-columns: minmax(0, 1fr); }
-  @media (min-width: 768px) {
-    .v-partner .criteria { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; }
-  }
-  .v-partner .criterion {
-    padding-top: 26px;
-    border-top: 1px solid var(--border);
-  }
-  .v-partner .criterion .label {
-    font-family: "JetBrains Mono", monospace;
-    font-size: 11px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--cyan);
-    margin-bottom: 14px;
-    display: block;
-  }
-  .v-partner .criterion h3 { margin-bottom: 10px; font-size: 18px; }
-  .v-partner .criterion p { font-size: 15px; line-height: 1.55; }
-  .v-partner .cohort-note {
-    margin-top: clamp(40px, 5vw, 64px);
-    max-width: 60ch;
-    font-size: 15px;
-    line-height: 1.6;
-    color: var(--text-2);
-  }
-
-  /* ── CTA band ── */
-  .v-partner .cta-band {
-    padding: clamp(64px, 8vw, 96px) 0;
-    background: linear-gradient(180deg, #E8ECF3 0%, var(--surface) 100%);
-    border-top: 1px solid var(--border);
-  }
-  .v-partner .cta-band h2 { max-width: 18ch; }
-  .v-partner .cta-band p  { margin-top: 14px; max-width: 48ch; font-size: 16px; }
-  .v-partner .cta-band .cta-row { margin-top: 32px; }
-
-  @media (max-width: 640px) {
-    .v-partner .org-panel {
-      box-shadow:
-        0 1px 2px rgba(8, 20, 37, 0.04),
-        0 8px 24px -10px rgba(8, 20, 37, 0.08);
-    }
-    .v-partner .console {
-      box-shadow:
-        0 14px 36px -14px rgba(8, 20, 37, 0.14),
-        0 0 0 rgba(0, 194, 255, 0);
-    }
-    .v-partner .hero::before { background-size: 32px 32px; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .btn, .v-partner .btn { transition: none; }
-    .btn:hover, .v-partner .btn:hover { transform: none; }
+    .v-partner .site-footer .row { flex-direction: column; align-items: flex-start; }
+    .v-partner .site-footer .right { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .v-partner .site-footer .divider { display: none; }
   }
 
   /* ───────────────────────────────────────────────
@@ -740,6 +805,13 @@
 </head>
 <body>
 <div id="root"></div>
+<noscript>
+  <div style="max-width:640px;margin:80px auto;padding:0 24px;font-family:system-ui,sans-serif;color:#081425;">
+    <p style="font-weight:700;letter-spacing:.2em;">ONEWARD</p>
+    <p>This site needs JavaScript to render. Reach us directly at
+      <a href="mailto:partners@getoneward.com" style="color:#00C2FF;">partners@getoneward.com</a>.</p>
+  </div>
+</noscript>
 
 <script>
   window.ONEWARD_CONFIG = {
@@ -991,8 +1063,13 @@ function Header({ view, go }) {
   return (
     <header className="site-header">
       <div className="container row">
-        <a className="wordmark" href="/" onClick={(e) => { e.preventDefault(); go("/"); }} aria-label="Oneward — home">ONEWARD</a>
-        {(view === "seed" || view === "request-deck") && (
+        <a className="brand" href="/" onClick={(e) => { e.preventDefault(); go("/"); }} aria-label="Oneward — home">
+          <img src="/assets/oneward-mark-64.png" alt="" width="28" height="28" />
+          <span className="wm">ONEWARD</span>
+        </a>
+        {view === "partner" ? (
+          <a className="header-cta" href="#start">Start a design study</a>
+        ) : (
           <a className="header-back" href="/" onClick={(e) => { e.preventDefault(); go("/"); }}>← Home</a>
         )}
       </div>
@@ -1005,10 +1082,14 @@ function Footer({ view, go }) {
     return (
       <footer className="site-footer">
         <div className="container row">
-          <span className="left">ONEWARD · 2026</span>
+          <a className="brand" href="/" onClick={(e) => { e.preventDefault(); go("/"); }} aria-label="Oneward">
+            <img src="/assets/oneward-mark-inverse-64.png" alt="" width="28" height="28" />
+            <span className="wm">ONEWARD</span>
+          </a>
           <div className="right">
+            <span>ONEWARD · 2026</span>
+            <span className="divider" aria-hidden="true"></span>
             <a className="mail" href="mailto:partners@getoneward.com">partners@getoneward.com</a>
-            <a className="seed" href="/seed" onClick={(e) => { e.preventDefault(); go("/seed"); }}>FOR INVESTORS →</a>
           </div>
         </div>
       </footer>
@@ -1031,179 +1112,196 @@ function Partner({ go }) {
       <section className="hero">
         <div className="container">
           <div className="hero-grid">
-            <div className="hero-text">
-              <span className="eyebrow">FOR HR &amp; PEOPLE SYSTEMS LEADERS</span>
-              <h1>The AI-native HRIS</h1>
+            <div>
+              <span className="eyebrow">FOR HR AND PEOPLE SYSTEMS LEADERS</span>
+              <h1>The AI-native HRIS.</h1>
               <p className="sub">The AI-readiness layer for Workday, SuccessFactors, and Oracle HCM tenants.</p>
-              <p className="body">Your CHRO has committed to AI in HR. Your tenant wasn't built for it. Oneward audits the gap — data integrity, permission model, integration surface, and audit posture — and ships the operating layer that makes agents safe to deploy on the systems you already run.</p>
+              <p className="support">Agents that do real HR work at every stage of the employee lifecycle, from the first application to the final exit, with the permissions, escalation paths and audit trail enterprise HR requires.</p>
               <div className="cta-row">
-                <a className="btn" href="mailto:partners@getoneward.com?subject=Design%20Partner%20Cohort%20Application&body=Hi%20Oneward%20team%2C%0A%0AI%27d%20like%20to%20apply%20for%20the%20design%20partner%20cohort.%0A%0ACurrent%20HRIS%20%28Workday%20%2F%20SuccessFactors%20%2F%20Oracle%20HCM%20%2F%20Other%29%3A%0A%0AOptional%20%E2%80%94%20what%20AI-in-HR%20initiative%20are%20you%20trying%20to%20deliver%3F%0A%0AThanks%2C">Apply for the design partner cohort <span className="arrow" aria-hidden="true">→</span></a>
+                <a className="btn" href="#start">Start with a 30-day design study <span className="arrow" aria-hidden="true">→</span></a>
               </div>
             </div>
 
-            <aside className="org-panel" aria-label="Permissioned HR org graph">
-              <div className="org-canvas">
-                <svg viewBox="0 0 600 380" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="org-title">
-                  <title id="org-title">Sample permissioned HR org graph: 13 humans and agents across four reporting levels, including agents who manage humans.</title>
-                  <g stroke="#C8D2E0" strokeOpacity="1" strokeWidth="1" fill="none">
-                    <line x1="300" y1="35" x2="300" y2="85"></line>
-                    <line x1="75" y1="85" x2="525" y2="85"></line>
-                    <line x1="75" y1="85" x2="75" y2="135"></line>
-                    <line x1="225" y1="85" x2="225" y2="135"></line>
-                    <line x1="375" y1="85" x2="375" y2="135"></line>
-                    <line x1="525" y1="85" x2="525" y2="135.5"></line>
-                    <line x1="75" y1="145" x2="75" y2="229.5"></line>
-                    <line x1="225" y1="145.5" x2="225" y2="229.5"></line>
-                    <line x1="375" y1="145.5" x2="375" y2="229.5"></line>
-                    <line x1="525" y1="145.5" x2="525" y2="230"></line>
-                    <line x1="225" y1="240.5" x2="225" y2="282"></line>
-                    <line x1="165" y1="282" x2="285" y2="282"></line>
-                    <line x1="165" y1="282" x2="165" y2="324.5"></line>
-                    <line x1="285" y1="282" x2="285" y2="324.5"></line>
-                    <line x1="525" y1="240" x2="525" y2="282"></line>
-                    <line x1="465" y1="282" x2="585" y2="282"></line>
-                    <line x1="465" y1="282" x2="465" y2="325"></line>
-                    <line x1="585" y1="282" x2="585" y2="324.5"></line>
-                  </g>
-                  <circle cx="300" cy="30" r="5" fill="#081425" style={{filter:"drop-shadow(0 0 0.75px rgba(8,20,37,0.18))"}}></circle>
-                  <circle cx="75" cy="140" r="5" fill="#081425" style={{filter:"drop-shadow(0 0 0.75px rgba(8,20,37,0.18))"}}></circle>
-                  <circle cx="225" cy="140" r="5" fill="#081425" style={{filter:"drop-shadow(0 0 0.75px rgba(8,20,37,0.18))"}}></circle>
-                  <circle cx="375" cy="140" r="5" fill="#081425" style={{filter:"drop-shadow(0 0 0.75px rgba(8,20,37,0.18))"}}></circle>
-                  <circle cx="75" cy="235" r="5" fill="#081425" style={{filter:"drop-shadow(0 0 0.75px rgba(8,20,37,0.18))"}}></circle>
-                  <circle cx="525" cy="235" r="5" fill="#081425" style={{filter:"drop-shadow(0 0 0.75px rgba(8,20,37,0.18))"}}></circle>
-                  <circle cx="165" cy="330" r="5" fill="#081425" style={{filter:"drop-shadow(0 0 0.75px rgba(8,20,37,0.18))"}}></circle>
-                  <circle cx="465" cy="330" r="5" fill="#081425" style={{filter:"drop-shadow(0 0 0.75px rgba(8,20,37,0.18))"}}></circle>
-                  <g fill="#FFFFFF" stroke="#00C2FF" strokeWidth="1.5" style={{filter:"drop-shadow(0 0 6px rgba(0,194,255,0.28))"}}>
-                    <polygon points="525,134.5 530.5,140 525,145.5 519.5,140"></polygon>
-                    <polygon points="225,229.5 230.5,235 225,240.5 219.5,235"></polygon>
-                    <polygon points="375,229.5 380.5,235 375,240.5 369.5,235"></polygon>
-                    <polygon points="285,324.5 290.5,330 285,335.5 279.5,330"></polygon>
-                    <polygon points="585,324.5 590.5,330 585,335.5 579.5,330"></polygon>
-                  </g>
-                  <g textAnchor="middle" dominantBaseline="hanging">
-                    <text className="node-label lbl-human" x="300" y="44">CHRO</text>
-                    <text className="node-label lbl-human" x="75" y="154">TOTAL REWARDS</text>
-                    <text className="node-label lbl-human" x="225" y="154">TALENT ACQ.</text>
-                    <text className="node-label lbl-human" x="375" y="154">HR COMPLIANCE</text>
-                    <text className="node-label lbl-agent" x="525" y="154">PEOPLE OPS</text>
-                    <text className="node-label lbl-human" x="75" y="249">COMP LEAD</text>
-                    <text className="node-label lbl-agent" x="225" y="249">HIRING MGR</text>
-                    <text className="node-label lbl-agent" x="375" y="249">POLICY AGENT</text>
-                    <text className="node-label lbl-human" x="525" y="249">HR OPS LEAD</text>
-                    <text className="node-label lbl-human" x="165" y="344">RECRUITER</text>
-                    <text className="node-label lbl-agent" x="285" y="344">SOURCER</text>
-                    <text className="node-label lbl-human" x="465" y="344">PAYROLL MGR</text>
-                    <text className="node-label lbl-agent" x="585" y="344">ONBOARDING</text>
-                  </g>
-                </svg>
-              </div>
-              <div className="org-foot">
-                <span className="item"><span className="dot" aria-hidden="true"></span>Human</span>
-                <span className="item"><span className="dia" aria-hidden="true"></span>Agent</span>
+            <aside className="hero-visual" aria-label="The employee lifecycle resting on an always-on foundation">
+              <svg viewBox="0 0 520 300" role="img" aria-labelledby="hv-title">
+                <title id="hv-title">Five lifecycle stages connected left to right, resting on a foundation layer.</title>
+                <g stroke="#C9C2B4" strokeWidth="1">
+                  <line x1="60" y1="70" x2="460" y2="70" />
+                  <line x1="60"  y1="80" x2="60"  y2="196" strokeDasharray="2 5" />
+                  <line x1="160" y1="80" x2="160" y2="196" strokeDasharray="2 5" />
+                  <line x1="260" y1="80" x2="260" y2="196" strokeDasharray="2 5" />
+                  <line x1="360" y1="80" x2="360" y2="196" strokeDasharray="2 5" />
+                  <line x1="460" y1="80" x2="460" y2="196" strokeDasharray="2 5" />
+                </g>
+                <g>
+                  <circle cx="60"  cy="70" r="7" fill="#081425" />
+                  <circle cx="160" cy="70" r="7" fill="#081425" />
+                  <circle cx="260" cy="70" r="7" fill="#081425" />
+                  <circle cx="360" cy="70" r="7" fill="#081425" />
+                  <circle cx="460" cy="70" r="7" fill="#081425" />
+                </g>
+                <g textAnchor="middle" fontFamily="JetBrains Mono, monospace" fontSize="10.5" letterSpacing="0.08em" fill="#43506A">
+                  <text x="60"  y="45">ATTRACT</text>
+                  <text x="160" y="45">ONBOARD</text>
+                  <text x="260" y="45">GROW</text>
+                  <text x="360" y="45">MOVE</text>
+                  <text x="460" y="45">OFFBOARD</text>
+                </g>
+                <rect x="30" y="196" width="460" height="72" rx="8" fill="#081425" />
+                <g fontFamily="JetBrains Mono, monospace" fontSize="10.5" letterSpacing="0.1em">
+                  <text x="60" y="226" fill="#00C2FF">ALWAYS-ON FOUNDATION</text>
+                  <text x="60" y="248" fill="#A9B4C9">DATA · PAY · COMPLIANCE · SERVICE</text>
+                </g>
+                <rect x="416" y="216" width="44" height="32" rx="3" fill="#00C2FF" />
+              </svg>
+              <div className="cap">
+                <span>THE EMPLOYEE LIFECYCLE</span>
+                <span>ON ONE FOUNDATION</span>
               </div>
             </aside>
           </div>
         </div>
       </section>
 
-      {/* THE GAP */}
-      <section className="band surface" aria-labelledby="problem-h">
+      {/* PILLARS */}
+      <section className="band cream" aria-labelledby="pillars-h">
         <div className="container">
           <div className="band-head">
-            <span className="eyebrow">THE GAP</span>
-            <h2 id="problem-h">Most HR teams are still copy-pasting between ChatGPT and the HRIS.</h2>
+            <span className="eyebrow">THE APPROACH</span>
+            <h2 id="pillars-h">One layer, customised for you</h2>
           </div>
-          <div className="three-up">
-            <div className="col">
+          <div className="pillars">
+            <div className="pillar">
+              <div className="glyph" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#00C2FF" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="4" cy="12" r="2"/><circle cx="20" cy="12" r="2"/><path d="M6.2 12h9.6"/><path d="M15 9.2l3 2.8-3 2.8"/>
+                </svg>
+              </div>
+              <h3>End to end</h3>
+              <p>From the first application to the final exit, one connected layer of agents, on a foundation that keeps pay, data and compliance right underneath all of it.</p>
+            </div>
+            <div className="pillar">
+              <div className="glyph" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#00C2FF" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M4 7h9M17 7h3"/><circle cx="15" cy="7" r="2"/><path d="M4 12h3M11 12h9"/><circle cx="9" cy="12" r="2"/><path d="M4 17h7M15 17h5"/><circle cx="13" cy="17" r="2"/>
+                </svg>
+              </div>
+              <h3>Tailored to your company</h3>
+              <p>Built on your systems, your job architecture, your policies and approval chains. The agents learn your context and enforce your rules.</p>
+            </div>
+            <div className="pillar">
+              <div className="glyph" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#00C2FF" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M4 8.5h13l-3-3"/><path d="M20 15.5H7l3 3"/>
+                </svg>
+              </div>
+              <h3>Model-agnostic</h3>
+              <p>Run on the model you approve, and switch to a better one as they arrive. No lock-in to any single vendor's AI.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* LIFECYCLE */}
+      <section className="band" aria-labelledby="life-h">
+        <div className="container">
+          <div className="band-head">
+            <span className="eyebrow">USE CASES</span>
+            <h2 id="life-h">Across the whole employee lifecycle.</h2>
+            <p className="lede">Every stage of an employee's time with you, supported by agents that do the work and hand off to a person wherever the stakes call for it.</p>
+          </div>
+
+          <div className="rail" aria-hidden="true">
+            <div className="stop"><span className="pt"></span><span className="nm">Attract &amp; Hire</span></div><span className="ln"></span>
+            <div className="stop"><span className="pt"></span><span className="nm">Onboard</span></div><span className="ln"></span>
+            <div className="stop"><span className="pt"></span><span className="nm">Grow &amp; Develop</span></div><span className="ln"></span>
+            <div className="stop"><span className="pt"></span><span className="nm">Move &amp; Change</span></div><span className="ln"></span>
+            <div className="stop"><span className="pt"></span><span className="nm">Offboard</span></div>
+          </div>
+
+          <div className="stages">
+            <div className="stage">
+              <h4><span className="idx">01</span>Attract &amp; Hire</h4>
+              <div className="uc"><div className="t">Hiring in the flow of work</div><div className="d">Draft requisitions and descriptions, run intake, keep pipelines moving and scorecards on time.</div></div>
+              <div className="uc"><div className="t">Offers that hold together</div><div className="d">Model pay against bands and peers, check for equity, assemble the contract with the right local terms.</div></div>
+              <div className="uc"><div className="t">Hire from within first</div><div className="d">Surface qualified internal candidates before the search goes external.</div></div>
+            </div>
+            <div className="stage">
+              <h4><span className="idx">02</span>Onboard</h4>
+              <div className="uc"><div className="t">Day-one readiness</div><div className="d">Turn a signed offer into provisioned access, equipment, a buddy and a first-week plan, relocation included.</div></div>
+            </div>
+            <div className="stage">
+              <h4><span className="idx">03</span>Grow &amp; Develop</h4>
+              <div className="uc"><div className="t">Growth for every person</div><div className="d">Development plans, learning matched to real skill gaps, stretch work through projects and mentorship.</div></div>
+              <div className="uc"><div className="t">Managers, supported</div><div className="d">Coaching on demand, continuous feedback, reviews synthesized from a year of evidence.</div></div>
+            </div>
+            <div className="stage">
+              <h4><span className="idx">04</span>Move &amp; Change</h4>
+              <div className="uc"><div className="t">Mobility made real</div><div className="d">Recommend the right next role, match the person to it, let them move.</div></div>
+              <div className="uc"><div className="t">Changes that execute cleanly</div><div className="d">Promotions, transfers and reorganizations validated against your data and pushed through without the manual rework.</div></div>
+            </div>
+            <div className="stage">
+              <h4><span className="idx">05</span>Offboard</h4>
+              <div className="uc"><div className="t">Exits handled end to end</div><div className="d">Orchestrate the leaver checklist across IT, payroll and HR, generate the documentation that has to be right.</div></div>
+            </div>
+          </div>
+
+          {/* Foundation */}
+          <div className="found" aria-labelledby="found-h">
+            <span className="fk">THE LIFECYCLE FOUNDATION</span>
+            <h3 id="found-h">Always on, underneath every stage.</h3>
+            <p className="fsub">Lifecycle agents are only as good as the data beneath them. The same layer runs continuously to keep pay, records and compliance correct, so every agent acts on verified information.</p>
+            <div className="fgrid">
+              <div className="fc"><div className="t">A data foundation you can trust</div><div className="d">Master data, org structure and the feeds between systems checked continuously.</div></div>
+              <div className="fc"><div className="t">Reconciled multi-system payroll</div><div className="d">Payroll and tax validated every cycle.</div></div>
+              <div className="fc"><div className="t">Compliance, always on</div><div className="d">Wage-and-hour, pay transparency, segregation of duties and audit readiness maintained continuously.</div></div>
+              <div className="fc"><div className="t">Service on demand</div><div className="d">Routine questions answered and documents generated the moment employees need them.</div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* WHY NOW */}
+      <section className="band cream" aria-labelledby="why-h">
+        <div className="container">
+          <div className="band-head">
+            <span className="eyebrow">WHY NOW</span>
+            <h2 id="why-h">Most HR teams are still copy-pasting between ChatGPT and the HRIS.</h2>
+            <p className="lede">Enterprises have committed to AI in HR. The systems underneath were not built for agents.</p>
+          </div>
+          <div className="why-grid">
+            <div className="why">
               <span className="num">01</span>
-              <h3>Permissions assume humans.</h3>
-              <p>That's because security groups, business processes, and approval chains were designed for human principals. Agents need permission models enterprise HRIS systems don't natively express.</p>
+              <h3>Permissions assume humans</h3>
+              <p>Security groups and approval chains were designed for people, not agents.</p>
             </div>
-            <div className="col">
+            <div className="why">
               <span className="num">02</span>
-              <h3>Workflows have no escalation path.</h3>
-              <p>When an agent acts on an HR record and a human disagrees, who owns the decision? Most tenants haven't answered this.</p>
+              <h3>Workflows have no escalation path</h3>
+              <p>When an agent reaches a decision it should not make, there is nowhere to hand off.</p>
             </div>
-            <div className="col">
+            <div className="why">
               <span className="num">03</span>
-              <h3>Audit posture isn't agent-ready.</h3>
-              <p>Compliance teams need to know which decisions an agent made, under what permissions, against what data. Today's logs weren't built for that question.</p>
+              <h3>Audit is not agent-ready</h3>
+              <p>Compliance needs to know which decisions an agent made and on what data. Today's logs were not built for that question.</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* THE WEDGE */}
-      <section className="band" aria-labelledby="wedge-h">
+      {/* CLOSE / CTA */}
+      <section className="close-band" id="start" aria-labelledby="close-h">
         <div className="container">
-          <div className="band-head">
-            <span className="eyebrow">THE WEDGE</span>
-            <h2 id="wedge-h">Start with a 30-day AI-readiness review.</h2>
+          <span className="eyebrow">DEPLOYMENT</span>
+          <h2 id="close-h">Built for how enterprises actually run.</h2>
+          <p className="body">Compatible with your tenant deployment, read where it matters and read-only where a wrong action would cost you, integrated with the HR, payroll and finance systems you already have, and running on the model you approve, swappable as better ones arrive.</p>
+          <div className="tags" role="list">
+            <span className="tag" role="listitem">Your systems</span>
+            <span className="tag" role="listitem">Your rules</span>
+            <span className="tag" role="listitem">Model agnostic</span>
           </div>
-          <div className="split">
-            <div className="split-text">
-              <p>We audit four dimensions of your tenant — data integrity, permission and access model, decision quality, and operational fit. You get back a scored report, a quick-wins list, and a 90-day forward-deployed plan to close the highest-value gaps. The team works alongside your platform owners; no separate procurement track, no CIO escalation required to get started.</p>
-              <ul className="dims">
-                <li><strong>Data integrity</strong> — record completeness, taxonomy reconciliation, trust by domain.</li>
-                <li><strong>Permission &amp; access</strong> — security groups, agent identity model, blast radius.</li>
-                <li><strong>Decision quality</strong> — evals, ground truth, drift detection, human-in-the-loop thresholds.</li>
-                <li><strong>Operational fit</strong> — audit logs, escalation paths, cost and latency budgets, policy fit.</li>
-              </ul>
-            </div>
-            <div className="console" id="scorecard" role="img" aria-label="Sample diagnostic output from a 30-day AI-readiness review.">
-              <div className="console-bar" aria-hidden="true">
-                <div className="lights"><span></span><span></span><span></span></div>
-                <div className="title"><span className="full">readiness-review · tenant://acme-corp</span><span className="short">readiness-review · tenant://acme</span></div>
-              </div>
-              <div className="console-body">
-                <span className="line"><span className="prompt">&gt; </span><span className="key">scanning tenant</span> <span className="val">·</span> <span className="accent">workday hcm</span> <span className="val">·</span> <span className="num">28,000</span> <span className="val">principals</span></span>
-                <span className="line"><span className="prompt">&gt; </span><span className="key">permission model</span> <span className="val">·</span> <span className="num">47</span> <span className="val">security groups</span> <span className="val">·</span> <span className="gap">12 agent-incompatible</span></span>
-                <span className="line"><span className="prompt">&gt; </span><span className="key">workflow</span> <span className="val">·</span> <span className="accent">hire.created</span> <span className="val">·</span> <span className="num">47</span> <span className="val">manual touchpoints</span> <span className="val">·</span> <span className="ok">31 agent-ready</span></span>
-                <span className="line"><span className="prompt">&gt; </span><span className="num">decision quality</span> <span className="val">·</span> <span className="val">workflow:</span> <span className="accent">comp.adjustment</span> <span className="val">·</span> <span className="gap">0 evals</span> <span className="val">·</span> <span className="gap">no ground truth</span></span>
-                <span className="line"><span className="prompt">&gt; </span><span className="key">readiness score</span> <span className="val">·</span> <span className="score">62 / 100</span></span>
-                <span className="line"><span className="prompt">&gt; </span><span className="pending">drafting 90-day plan</span><span className="cursor" aria-hidden="true"></span></span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* DESIGN PARTNER COHORT */}
-      <section className="band surface" aria-labelledby="cohort-h">
-        <div className="container">
-          <div className="band-head">
-            <span className="eyebrow">DESIGN PARTNER COHORT</span>
-            <h2 id="cohort-h">We're picking eight design partners this quarter.</h2>
-          </div>
-          <div className="criteria">
-            <div className="criterion">
-              <span className="label">Criterion 01</span>
-              <h3>10,000+ employees</h3>
-              <p>Global workforce, multi-country complexity.</p>
-            </div>
-            <div className="criterion">
-              <span className="label">Criterion 02</span>
-              <h3>Workday, SuccessFactors, or Oracle HCM</h3>
-              <p>Live tenant, ideally 0–24 months past go-live.</p>
-            </div>
-            <div className="criterion">
-              <span className="label">Criterion 03</span>
-              <h3>Public AI-in-HR commitment</h3>
-              <p>Your CHRO has said something out loud. We help you deliver it.</p>
-            </div>
-          </div>
-          <p className="cohort-note">Design partners get the 30-day review at no cost in exchange for working sessions and candid feedback. We don't sell to your CIO; we ship with your team.</p>
-        </div>
-      </section>
-
-      {/* CTA BAND */}
-      <section className="cta-band" id="apply" aria-labelledby="apply-h">
-        <div className="container">
-          <span className="eyebrow">APPLY</span>
-          <h2 id="apply-h" style={{marginTop:"18px"}}>Apply for the cohort.</h2>
-          <p>30-minute intro call. We'll tell you within a week whether we're a fit.</p>
           <div className="cta-row">
-            <a className="btn" href="mailto:partners@getoneward.com?subject=Design%20Partner%20Cohort%20Application&body=Hi%20Oneward%20team%2C%0A%0AI%27d%20like%20to%20apply%20for%20the%20design%20partner%20cohort.%0A%0ACurrent%20HRIS%20%28Workday%20%2F%20SuccessFactors%20%2F%20Oracle%20HCM%20%2F%20Other%29%3A%0A%0AOptional%20%E2%80%94%20what%20AI-in-HR%20initiative%20are%20you%20trying%20to%20deliver%3F%0A%0AThanks%2C">Apply for the design partner cohort <span className="arrow" aria-hidden="true">→</span></a>
+            <a className="btn" href="mailto:partners@getoneward.com?subject=Oneward%20%E2%80%94%2030-day%20design%20study&body=Hi%20Oneward%20team%2C%0D%0A%0D%0AWe%20would%20like%20to%20apply%20for%20the%2030-day%20design%20study.%0D%0A%0D%0ACurrent%20HRIS%20(Workday%20%2F%20SuccessFactors%20%2F%20Oracle%20HCM%20%2F%20Other)%3A%0D%0A%0D%0AOptional%20-%20what%20AI-in-HR%20initiative%20are%20you%20trying%20to%20deliver%3F">Start with a 30-day design study <span className="arrow" aria-hidden="true">→</span></a>
           </div>
         </div>
       </section>
