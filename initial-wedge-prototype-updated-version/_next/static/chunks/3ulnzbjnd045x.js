@@ -1,0 +1,1 @@
+(globalThis.TURBOPACK||(globalThis.TURBOPACK=[])).push(["object"==typeof document?document.currentScript:void 0,55165,e=>{"use strict";var t=e.i(50014),u=e.i(89045),i=e.i(14732),l=e.i(53813);e.s(["default",0,function(){let e=(0,u.useRouter)(),{workspaceRole:o}=(0,i.useAppState)();return(0,t.useEffect)(()=>{e.replace((0,l.getWorkspaceRole)(o).landing)},[e,o]),null}])}]);
